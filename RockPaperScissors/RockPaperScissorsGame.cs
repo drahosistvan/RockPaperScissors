@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RockPaperScissors.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,9 @@ namespace RockPaperScissors
         public int player2Points { get; internal set; }
         public GameOption lastOptionPlayer1 { get; internal set; }
         public GameOption lastOptionPlayer2 { get; internal set; }
+        public Shape lastShapePlayer1 { get; internal set; }
+        public Shape lastShapePlayer2 { get; internal set; }
+        public string resultMessage { get; internal set; }
 
         public RockPaperScissorsGame()
         {
@@ -25,6 +29,10 @@ namespace RockPaperScissors
         {
             lastOptionPlayer1 = player1Option;
             lastOptionPlayer2 = generateComputerOption();
+
+            lastShapePlayer1 = determinePlayerShape(lastOptionPlayer1);
+            lastShapePlayer2 = determinePlayerShape(lastOptionPlayer2);
+
             if (!gameInProgress)
             {
                 return false;
@@ -33,14 +41,18 @@ namespace RockPaperScissors
             int winner = determineWinner(lastOptionPlayer1, lastOptionPlayer2);
             Console.WriteLine("Winner: " + winner.ToString());
 
+            resultMessage = "Döntetlen! Ebben a körben senki nem kapott pontot.";
             switch (winner)
             {
                 case -1:
                     player2Points++;
+                    resultMessage = "Ezt a kört a gép nyerte!";
                     break;
                 case 1:
                     player1Points++;
+                    resultMessage = "Ezt a kört a játékos nyerte!";
                     break;
+                    
             }
 
             if (player1Points >= 2 || player2Points >= 2)
@@ -96,6 +108,21 @@ namespace RockPaperScissors
             }
 
             return -1;
+        }
+
+        private Shape determinePlayerShape(GameOption fromGameOption)
+        {
+            switch (fromGameOption)
+            {
+                case GameOption.Paper:
+                    return new Paper();
+
+                case GameOption.Rock:
+                    return new Rock();
+
+                default:
+                    return new Scissors();
+            }
         }
 
     }

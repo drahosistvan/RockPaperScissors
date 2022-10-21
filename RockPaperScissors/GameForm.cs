@@ -31,14 +31,17 @@ namespace RockPaperScissors
             gameLayoutPanel.Controls.Clear();
             game.StartGame();
             setPlayerPoints(0, 0);
+            gameControl.Dock = DockStyle.Fill;
             gameLayoutPanel.Controls.Add(gameControl);
+
+            startGame.Hide();
         }
 
         private void onUserSelection(object sender, GameOption selection)
         {
             gameLayoutPanel.Controls.Clear();
             game.PlayRound(selection);
-            RoundResultsControl roundResultsControl = new RoundResultsControl(game.lastOptionPlayer1, game.lastOptionPlayer2, game.gameInProgress);
+            RoundResultsControl roundResultsControl = new RoundResultsControl(game.lastShapePlayer1, game.lastShapePlayer2, game.gameInProgress, game.resultMessage);
             roundResultsControl.OnButtonClicked += onRoundResultButtonClicked;
 
             gameLayoutPanel.Controls.Clear();
@@ -54,6 +57,7 @@ namespace RockPaperScissors
                 gameLayoutPanel.Controls.Clear();
                 game.ResetGame();
                 setPlayerPoints(0, 0);
+                startGame.Show();
             } else
             {
                 gameLayoutPanel.Controls.Clear();

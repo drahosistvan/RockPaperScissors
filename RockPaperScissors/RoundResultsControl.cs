@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RockPaperScissors.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,7 +16,7 @@ namespace RockPaperScissors
     public partial class RoundResultsControl : UserControl
     {
         public event ResultsButtonClicked OnButtonClicked;
-        public RoundResultsControl(GameOption player1Option, GameOption player2Option, bool isGameInProgress)
+        public RoundResultsControl(Shape player1Option, Shape player2Option, bool isGameInProgress, string resultMessage = "")
         {
             InitializeComponent();
 
@@ -29,8 +30,13 @@ namespace RockPaperScissors
                 finishGameButton.Show();
             }
 
-            player1ResultText.Text = player1Option.ToString();
-            player2ResultText.Text = player2Option.ToString();
+            player1ResultText.Text = player1Option.Name;
+            player1Picture.Image = player1Option.Image;
+
+            player2ResultText.Text = player2Option.Name;
+            player2Picture.Image = player2Option.Image;
+
+            this.resultMessage.Text = resultMessage;   
         }
 
         private void continueGameButton_Click(object sender, EventArgs e)
